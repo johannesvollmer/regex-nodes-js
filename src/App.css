@@ -1,33 +1,321 @@
-.App {
-  text-align: center;
+#root {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	caret-color: teal;
+	background-color: #222;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+#example-text, #connection-graph, #node-graph, #overlay {
+	position: absolute;
+	display: block;
+	top:0; left:0;
+
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+#example-text {
+	color: #333;
+	text-align: justify;
+	opacity: 0.8;
+}
+#example-text .match {
+	color: #444;
 }
 
-.App-link {
-  color: #61dafb;
+.transform {
+	position: absolute;
+	display: block;
+
+	top: 0; left: 0;
+	overflow: visible;
+} 
+
+/* TODO #node-graph .transform, #connection-graph .transform {
+	transition: transform 100ms;
+}*/
+
+.connection {
+	stroke: teal;
+	stroke-width: 2;
+	stroke-linecap: round;
+	fill: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+#overlay {
+	pointer-events: none;
+}
+
+#header {
+	width: 100%;
+	position: absolute;
+	left:0; top:0;
+	color: #666;
+	background-color: #333;
+	padding: 8px;
+}
+#header:hover {
+	background-color: teal; /* partially enable transition */ 
+}
+#header:hover * {
+	color: white;
+}
+
+#header > * {
+	pointer-events: auto;
+	display: inline;
+	padding: 8px;
+}
+
+#header h2 {
+	margin: 0;
+	font-weight: 400;
+	font-size: 2em;
+	color: #ccc;
+}
+
+#header a {
+	color: #666;
+}
+
+#search {
+	position: absolute;
+	top:0; left: calc(50% - 250px);
+	width: 500px;
+	margin: 6px;
+}
+
+#regex {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+
+	pointer-events: auto;
+	font-weight: 600;
+	font-size: 1.6em;
+	color: #bbb;
+	text-align: center;
+	background-color: #333;
+	padding: 20px;
+	cursor: text;
+	user-select: text;
+	min-height: 20px;
+}
+
+
+
+#regex .string {
+	color: lightseagreen;
+}
+#regex .comment {
+	color: #999;
+	cursor: pointer;
+	user-select: none;
+}
+
+*::selection {
+	background: teal;
+	color: #fff;
+}
+
+
+#search input {
+	width: 100%;
+	pointer-events: auto;
+	border-radius: 0;
+	border: 2px solid #33333300;
+	padding: 8px 0;
+	background-color: #00000033;
+	color: #ffffffbb;
+	text-align: center;
+	font-size: 1.1em;
+	font-weight: 700;
+}
+#search input:focus {
+	border: 2px solid #ffffff66;
+	background-color: transparent;
+	color: #fff;
+}
+#search #results {
+	font-size: 1.1em;
+	width: 100%;
+	text-align: center;
+	background-color: #333;
+	pointer-events: auto;
+	color: #bbb;
+	max-height: 70vh;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+#search #results > * {
+	padding: 8px;
+	cursor: pointer;
+}
+#search #parse-search #string {
+	color: teal;
+}
+#search #results > *:hover {
+	background-color: #666;
+	color: #fff;
+}
+#search #results #parse-search:hover {
+	background-color: teal;
+	color: #ffffffdd;
+}
+#search #results #parse-search:hover #string {
+	color: white;
+}
+
+.graph-node {
+	position: absolute;
+	top:0; left:0;
+	font-size: 14px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	align-content: stretch;
+
+	background-color: #ddd;
+
+	box-shadow: 2px 2px 0 0 #00000022;
+}
+.graph-node {
+	cursor: pointer;
+}
+.dragged.graph-node {
+	cursor: grabbing;
+}
+.connect-dragging * {
+	cursor: pointer;
+}
+
+
+.property {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	align-content: stretch;
+	justify-content: space-between;
+}
+
+.property:hover {
+	background-color: #eee;
+}
+.connect-dragging .property:hover {
+	background-color: #eeeeee22;
+}
+
+/* align input items to the left by filling space with the name */
+.property > .title {
+	text-align: left;
+	margin-right: 6px;
+	flex-grow: 1;
+}
+
+.property.main > .title {
+	text-align: center;
+}
+
+/* override priority, maximise text input size */
+.property > input[type="text"], .property > input[type="number"] {
+	flex-grow: 100;
+}
+
+.main.property > .title {
+	font-weight: 700;
+}
+
+.property input {
+	border: 1px solid transparent;
+	background-color: #22222222;
+	font-size: 0.7em;
+	width: 10px;
+
+	font-family: 'Ubuntu Mono', source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+.property input:focus {
+	border: 1px solid #333;
+	background-color: transparent;
+}
+
+.connector {
+	width: 4px;
+	height: 100%;
+	background-color: teal;
+}
+
+.left.connector {
+	margin-right: 6px;
+}
+
+.right.connector {
+	margin-left: 6px;
+}
+
+.inactive.connector {
+	opacity: 0;
+}
+
+.graph-node {
+	color: #333;
+}
+.graph-node input {
+	color: inherit;
+}
+
+
+.connect-dragging .graph-node:not(.connecting) .property.connectable-input {
+	background-color: #ddd;
+}
+.connect-dragging .graph-node {
+	background-color: #444;
+}
+
+.connect-dragging .property:not(.connectable-input) {
+	opacity: 0.25;
+	color: #fff;
+	pointer-events: none;
+}
+.connect-dragging .main:not(.connectable-input) {
+	opacity: 0.6;
+}
+
+.connecting.graph-node .main.property {
+	background-color: teal; /* partially enable transition */ 
+	background-image: url("background.svg");
+	background-repeat: no-repeat;
+	background-position: 0% 0%; 
+	background-size: 100% 100%;
+	opacity: 1;
+	color: #fff;
+}
+
+.connect-dragging .connector {
+	background-color: #555;
+}
+.connect-dragging .connectable-input.property .connector {
+	background-color: transparent;
+}
+.connect-dragging .graph-node:not(.connecting) .connectable-input.property .left.connector {
+	background-color: teal;
+}
+
+.connecting.graph-node .main.property .connector {
+	opacity: 0;
+}
+
+.connect-dragging .connection:not(.prototype) {
+	stroke: #555;
+}
+
+
+
+* {
+	transition: color 100ms, background-color 100ms, 
+	opacity 100ms, stroke 100ms, fill 100ms;
 }
