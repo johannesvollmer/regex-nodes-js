@@ -71,12 +71,13 @@
 }
 
 #logo {
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   margin: 4px; padding: 0;
   box-shadow: 3px 3px #00000022;
   display: inline-block;
   vertical-align: baseline;
+  transform: translate(0, 5px); /* don't do this at home. or anywhere, really */
 }
 
 #header h2 {
