@@ -275,8 +275,9 @@ class App extends React.Component {
 				
 			<div id="overlay">
 				<section id="header">
+          <img src="/logo.svg" id="logo"/>
 					<h2>Regex Nodes</h2>
-					<nav>by <a href="http://github.com/johannesvollmer" target="_blank" rel="noopener noreferrer">
+					<nav>by <a href="https://github.com/johannesvollmer/regex-nodes-js" target="_blank" rel="noopener noreferrer">
 						johannesvollmer
 					</a></nav>
 				</section>

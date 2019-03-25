@@ -70,6 +70,15 @@
 	padding: 8px;
 }
 
+#logo {
+  width: 30px;
+  height: 30px;
+  margin: 4px; padding: 0;
+  box-shadow: 3px 3px #00000022;
+  display: inline-block;
+  vertical-align: baseline;
+}
+
 #header h2 {
 	margin: 0;
 	font-weight: 400;
