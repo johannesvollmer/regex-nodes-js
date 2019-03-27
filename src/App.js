@@ -88,7 +88,9 @@ const AppState = {
 			return state
 
 
-		return { ...state, cache: { regex, matches: [] } } // FIXME
+    // return { ...state, cache: { regex, matches: [] } } // FIXME
+    
+    
 		const compiledRegex = eval(regex) // careful there!
 
 		// console.log(exampleText.match(compiledRegex))
