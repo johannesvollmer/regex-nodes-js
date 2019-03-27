@@ -82,7 +82,24 @@ const parseSequence = (string, predicate) => {
 }
 
 const parsePositioned = string => {
-	return parseLookahead(string)
+  return parseLookahead(string)
+
+  // TODO:
+  let atBeginning = false
+  if (string.startsWith("^")){
+    string = string.slice(1)
+    atBeginning = true
+  }
+
+  const element = parseLookahead(string)
+  string = element.remaining
+  
+  if (string.startsWith("$")){
+
+  }
+  else {
+    
+  }
 } 
 
 const parseLookahead = string => {
