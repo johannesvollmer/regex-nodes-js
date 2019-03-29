@@ -168,15 +168,22 @@ class App extends React.Component {
 
 		this.state = AppState.create() 
 
-		const initialNode = NodeState.create(
+		const resultNode = NodeState.create(
 			ViewState.inverseTransformPoint(this.state.view, {
 				x: window.innerWidth / 2, y: window.innerHeight / 2
 			}), 
 			"Expression Result"
 		)
-		// NodeState.create({ x:100, y:100 }, "Expression Result")
+
+		const digitNode = NodeState.create(
+			ViewState.inverseTransformPoint(this.state.view, {
+				x: window.innerWidth / 2 - 210, y: window.innerHeight / 2 - 10
+			}), 
+			"Digit"
+		)
 		
-		this.state = AppState.addNode(this.state, initialNode)
+		this.state = AppState.addNode(this.state, resultNode)
+		this.state = AppState.addNode(this.state, digitNode)
 		this.state = AppState.updateCache(this.state)
 	}
 
